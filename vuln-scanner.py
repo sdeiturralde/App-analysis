@@ -99,22 +99,25 @@ class SimpleScanner(ast.NodeVisitor):
 
         # Debug mode
         # In AST, app.config['DEBUG'] is a Subscript, not an Attribute.
-        if isinstance(node.targets[0], ast.Subscript):
-            subscript = node.targets[0]
+        if isinstance(target, ast.Subscript):
             # Check if the object is app.config
-            if isinstance(subscript.value, ast.Attribute):
-                if subscript.value.attr == 'config' and isinstance(subscript.value.value, ast.Name) and subscript.value.value.id == 'app':
-                    # Check if the slice key is 'DEBUG'
-                    if isinstance(subscript.slice, ast.Index) and isinstance(subscript.slice.value, ast.Constant):
-                        if subscript.slice.value.value == 'DEBUG':
-                            #check if app.config['DEBUG'] = True
-                            if isinstance(node.value, ast.Constant) and node.value.value is True:
-                                self.vulns.append(Vulnerability(
-                                    "Medium",
-                                    "Debug mode enabled",
-                                    node.lineno,
-                                    "Set DEBUG=False in production."
-                                ))
+            if isinstance(target.value, ast.Attribute):
+                if target.value.attr == 'config':
+                    if isinstance(target.value.value, ast.Name) and target.value.value.id == 'app':
+                        # Get the slice value (handles both old and new AST)
+                        slice_val = target.slice
+                        if isinstance(slice_val, ast.Index):      # Python < 3.9
+                            slice_val = slice_val.value
+                        if isinstance(slice_val, ast.Constant):
+                            if slice_val.value == 'DEBUG':
+                                #check if app.config['DEBUG'] = True
+                                if isinstance(node.value, ast.Constant) and node.value.value is True:
+                                    self.vulns.append(Vulnerability(
+                                        "Medium",
+                                        "Debug mode enabled",
+                                        node.lineno,
+                                        "Set DEBUG=False in production."
+                                    ))
 
         self.generic_visit(node)
 
