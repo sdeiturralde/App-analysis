@@ -50,6 +50,7 @@ class SimpleScanner(ast.NodeVisitor):
         """ SQL Injection: looks for .execute() calls where the first argument is an f-string,
         a concatenation, or a string containing %s/{}"""
         if isinstance(node.func, ast.Attribute) and node.func.attr == 'execute':
+            #Helper method defined later
             if node.args and self._is_unsafe_query(node.args[0]):
                 self.vulns.append(Vulnerability(
                     "Critical",
@@ -61,7 +62,7 @@ class SimpleScanner(ast.NodeVisitor):
         """ Path Traversal in download: finds send_file() calls and it checks if the argument
         contains tainted input"""
         if isinstance(node.func, ast.Name) and node.func.id == 'send_file':
-            #This is where it checks it
+            #This is where it checks it. Also a helper method defined later
             if node.args and self._contains_tainted_input(node.args[0]):
                 self.vulns.append(Vulnerability(
                     "Critical",
