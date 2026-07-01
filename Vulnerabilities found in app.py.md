@@ -1,7 +1,7 @@
 
 # SQL injection
 
-I've found that in the routes `/login` on the line **60** and `/user` on the line **116** the queries for the databases are made with f-strings with any escape of any kind. Therefore an attacker can manipulate the parameters (`username`, `password`, or `name`) to execute arbitrary SQL commands. This can lead to bypass authentication, modifying data or leaking sensitive data. <br>
+In the routes `/login` (line **60**) and `/user` (line **116**) the queries for the databases are made with f-strings without any escape or securization of any kind. Therefore an attacker can manipulate the parameters (`username`, `password`, or `name`) to execute arbitrary SQL commands. This can lead to bypass authentication, modifying data or leaking sensitive data. <br>
 
  <img src="https://raw.githubusercontent.com/sdeiturralde/App-analysis/refs/heads/main/imgs/1.png"/>
 
@@ -10,7 +10,8 @@ I've found that in the routes `/login` on the line **60** and `/user` on the lin
 
 # Path traversal
 
-In both routes `/download` (line **94**) and `/upload` (line **105**) exist the risk of path traversal since both take the parameter join whatever it is written on the parameter with the default path allowing an attacker to escape it and get sensitive information.
+In both routes `/download` (line **94**) and `/upload` (line **105**) exist the risk of path traversal since both take the parameter join whatever it is written on the parameter with the default path allowing an attacker to escape it and get sensitive information. <br>
+An example could be "http://localhost:5000/download?file=../../../../etc/passwd"
 
 <br>
 <br>
