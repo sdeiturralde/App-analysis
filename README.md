@@ -27,9 +27,9 @@ python scanner.py path/to/your_app.py
 This tool is a static heuristic analyzer – it does not execute the code.
 As a result, it may produce:
 
-**False positives** – variables with common names (e.g., filepath) that are actually safe.
+- **False positives** – variables with common names (e.g., filepath) that are actually safe.
 
-**False negatives** – tainted data stored in variables not in the suspicious list (e.g., my_var).
+- **False negatives** – tainted data stored in variables not in the suspicious list (e.g., my_var).
 
 ## Results
 <img src="https://raw.githubusercontent.com/sdeiturralde/App-analysis/refs/heads/main/imgs/8.png"/>
