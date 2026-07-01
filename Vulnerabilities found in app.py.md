@@ -1,9 +1,12 @@
 # Vulnerability report of app.py
 These are the vulnerabilities found when the python code was tested.
+***
+
+<br>
+<br>
 <br>
 <br>
 
-***
 
 ## SQL injection
 
@@ -13,6 +16,7 @@ In the routes `/login` (line **60**) and `/user` (line **116**) the queries for 
 
 <br>
 <br>
+<br>
 
 
 ## Path traversal
@@ -20,6 +24,7 @@ In the routes `/login` (line **60**) and `/user` (line **116**) the queries for 
 In both routes `/download` (line **94**) and `/upload` (line **105**) exist the risk of path traversal since both take the parameter join whatever it is written on the parameter with the default path allowing an attacker to escape it and get sensitive information. <br>
 An example could be "http://localhost:5000/download?file=../../../../etc/passwd"
 
+<br>
 <br>
 <br>
 
@@ -33,6 +38,7 @@ In the route `/search` on the lines **86** and **87** the query is not sanitized
 
 <br>
 <br>
+<br>
 
 ## Missing authentication
 
@@ -42,11 +48,13 @@ There's a lack of verification in many endpoints like `/users` making their info
 
 <br>
 <br>
+<br>
 
 ## Hardcoded secrets
 
 In the lines **18** and **19** there are hardcoded an API key and a secret token that should never be in the code. Anyone with source code access can obtain these secrets.
 
+<br>
 <br>
 <br>
 
@@ -58,6 +66,7 @@ In production it is very useful having these mode enabled but when you release i
 <img src="https://raw.githubusercontent.com/sdeiturralde/App-analysis/refs/heads/main/imgs/6.png"/>
 <img src="https://raw.githubusercontent.com/sdeiturralde/App-analysis/refs/heads/main/imgs/7.png"/>
 
+<br>
 <br>
 <br>
 
